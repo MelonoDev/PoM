@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Humanoid<T> where T:Humanoid {
 	public GameObject GameObject;
@@ -11,13 +12,27 @@ public class Humanoid<T> where T:Humanoid {
 	}
 }
 
+public enum State {
+	Idle, 
+	Move, 
+	StandardAttacking,
+	SpecialAttacking,
+	Roll,
+	Dead,
+	Knockback,
+	WindDown
+
+}
+
 public abstract class Humanoid : MonoBehaviour {
+	
 	//Relevant objects/components
 	public HitBoxScript hitBoxScript;
 	public GameObject Hitbox;
 	public CharacterController Controller;
 	public Animator HumanoidAnimator;
 	public WeaponParentClass Weapon;
+	public State currentState;
 
 	//Stats
 	public float Speed;
@@ -28,7 +43,8 @@ public abstract class Humanoid : MonoBehaviour {
 	public bool isStandardAttacking = false;
 	protected float isStandardAttackingTimer = 0f;
 	protected float standardAttackDuration = 1f;
-	public float standardAttackWindup = .2f; //set in hitbox to see
+	protected float standardAttackWindupTimer = 0f; 
+	protected float standardAttackWindupDuration = .5f;
 
 	//Special Attack
 	public bool isSpecialAttacking = false;
@@ -41,6 +57,7 @@ public abstract class Humanoid : MonoBehaviour {
 	protected float InvulnerabilityLength = 1f;
 
 	//abstract functions
+	public abstract void CheckState ();
 	protected abstract void Move ();
 //	protected abstract void Die ();
 	protected abstract void Test ();
@@ -57,6 +74,7 @@ public abstract class Humanoid : MonoBehaviour {
 		Controller = gameObject.GetComponent<CharacterController>();
 		HumanoidAnimator = gameObject.GetComponentInChildren<Animator>();
 		Weapon = new ShortSword();
+		currentState = State.Idle;
 	}
 
 	//Check invulnerability and let it end in time
@@ -68,24 +86,35 @@ public abstract class Humanoid : MonoBehaviour {
 				InvulnerabilityTimer = 0;
 			}
 		}
-		print (IsInvulnerable.ToString () + "Invulnerability");
 	}
 
 	//StandardAttack
 	protected void StandardAttack(bool AttackTrigger){
 		if (AttackTrigger) {
 			if (!isStandardAttacking) {
-				HumanoidAnimator.SetTrigger("StandardAttackTrigger");
+				HumanoidAnimator.SetBool ("StandardAttackBool", AttackTrigger);
+
+				if (gameObject.tag != "Player") {
+					standardAttackWindupTimer += Time.deltaTime;
+				} else {
+					isStandardAttacking = true;
+				}
 			}
-			isStandardAttacking = true;
+
+			if (standardAttackWindupTimer >= standardAttackWindupDuration) {
+				isStandardAttacking = true;
+				standardAttackWindupTimer = 0f;
+			}
 		}
 		if (isStandardAttacking) {
+			currentState = State.WindDown;
 			Hitbox.SetActive (true);
 			isStandardAttackingTimer += Time.deltaTime;
 			if (isStandardAttackingTimer > standardAttackDuration) {
 				if (gameObject.tag == "Player") {
 					PlayerInventory.weapons [0].WeaponDurability -= 1;
 				}
+				HumanoidAnimator.SetBool ("StandardAttackBool", false);
 				isStandardAttacking = false;
 				isStandardAttackingTimer = 0f;
 			}
@@ -102,7 +131,6 @@ public abstract class Humanoid : MonoBehaviour {
 			if (attackType == "StandardAttack") {
 				Health -= damage;
 				IsInvulnerable = true; //special attacks are combo attacks by the player, so no vulnerabiloty there
-				print ("Has Invulnerability?");
 				if (gameObject.tag == "Enemy") {
 					KnockBack (attackType);
 				}

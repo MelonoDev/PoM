@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player : Humanoid{
 	void Start(){
@@ -14,10 +14,11 @@ public class Player : Humanoid{
 			StandardAttack ((Input.GetKeyDown ("mouse 0")));
 		}
 		Invulnerable ();
+		Move ();
+
 	}
 
 	void FixedUpdate(){
-		Move ();
 	}
 
 	protected override void Test ()
@@ -33,7 +34,7 @@ public class Player : Humanoid{
 		Vector3 move = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
 		Controller.Move (move * Time.deltaTime * Speed);
 
-		if (Input.GetAxis ("Horizontal") != 0 || Input.GetAxis ("Vertical") != 0) {
+		if ((Input.GetAxis ("Horizontal") != 0 || Input.GetAxis ("Vertical") != 0) && ((!isStandardAttacking) || (!isSpecialAttacking))){
 			HumanoidAnimator.SetBool ("WalkBool", true);
 			HumanoidAnimator.SetBool ("IdleBool", false);
 
@@ -77,4 +78,8 @@ public class Player : Humanoid{
 		throw new System.NotImplementedException ();
 	}
 
+	public override void CheckState ()
+	{
+		throw new System.NotImplementedException ();
+	}
 }

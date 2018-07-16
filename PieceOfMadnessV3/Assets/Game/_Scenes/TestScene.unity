@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 24364094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.05, y: 0, z: -8.78}
+  m_LocalPosition: {x: -10.47, y: 0, z: -19.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1196624165}
@@ -519,8 +519,8 @@ GameObject:
   m_Component:
   - component: {fileID: 255987252}
   m_Layer: 0
-  m_Name: PlayerCharacter (1)
-  m_TagString: Player
+  m_Name: PlayerCharacter
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1900,7 +1900,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1196624164}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1964,13 +1964,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10a970886184754380d6167947ace41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitBoxScript: {fileID: 0}
   Hitbox: {fileID: 0}
   Controller: {fileID: 0}
   HumanoidAnimator: {fileID: 0}
+  currentState: 0
   Speed: 0
   MaxHealth: 0
   Health: 0
   isStandardAttacking: 0
+  isSpecialAttacking: 0
+  IsInvulnerable: 0
+  player: {fileID: 0}
+  noticeDistanceToPlayer: 10
+  attackDistanceToPlayer: 3
 --- !u!1 &1210670324
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,7 +2052,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerObject: {fileID: 1917904806}
-  CameraHeight: 10
 --- !u!81 &1221935026
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2791,7 +2797,7 @@ Prefab:
     - target: {fileID: 9500000, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 23910106a7761054486521d4e5d1e3d2, type: 2}
+      objectReference: {fileID: 9100000, guid: 794768bd4d849d44e92bf43e4e1caa1d, type: 2}
     - target: {fileID: 400078, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0, type: 3}
       propertyPath: m_LocalScale.x
       value: 20
@@ -3611,7 +3617,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerObject: {fileID: 1754077120}
-  CameraHeight: 10
 --- !u!1 &1835016463
 GameObject:
   m_ObjectHideFlags: 0
@@ -3635,14 +3640,14 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1835016463}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 168376852}
   m_Father: {fileID: 1196624165}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1835911747
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,7 +3845,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1876546880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.36, y: 1.25, z: 0}
+  m_LocalPosition: {x: 0, y: 1.25, z: 2.5}
   m_LocalScale: {x: 3.913123, y: 3.9131217, z: 3.9131217}
   m_Children: []
   m_Father: {fileID: 1196624165}
@@ -4046,7 +4051,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1917904805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4086,13 +4091,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e663d8440d669ec4eb1ea7db1011a2f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitBoxScript: {fileID: 0}
   Hitbox: {fileID: 0}
   Controller: {fileID: 0}
   HumanoidAnimator: {fileID: 0}
+  currentState: 0
   Speed: 0
   MaxHealth: 0
   Health: 0
   isStandardAttacking: 0
+  isSpecialAttacking: 0
+  IsInvulnerable: 0
 --- !u!33 &1917904809
 MeshFilter:
   m_ObjectHideFlags: 0
