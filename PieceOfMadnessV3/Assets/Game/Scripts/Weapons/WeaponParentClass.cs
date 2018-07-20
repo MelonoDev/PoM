@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class WeaponParentClass {
+public abstract class WeaponParentClass : MonoBehaviour {
 
 	public int WeaponID;
 	public string WeaponName;

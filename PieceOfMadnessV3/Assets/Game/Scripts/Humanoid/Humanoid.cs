@@ -34,6 +34,10 @@ public abstract class Humanoid : MonoBehaviour {
 	public WeaponParentClass Weapon;
 	public State currentState;
 
+	//audio
+	public AudioSource SwordStrikeAudio;
+	public AudioSource DeathAudio;
+
 	//Stats
 	public float Speed;
 	public int MaxHealth;
@@ -59,12 +63,12 @@ public abstract class Humanoid : MonoBehaviour {
 	//abstract functions
 	public abstract void CheckState ();
 	protected abstract void Move ();
-//	protected abstract void Die ();
+	protected abstract void Die ();
 	protected abstract void Test ();
 
 	void Awake (){
 		//set floats and ints
-		Speed = 2.1f;
+		Speed = 5f;
 		MaxHealth = 5;
 		Health = MaxHealth;
 
@@ -75,6 +79,9 @@ public abstract class Humanoid : MonoBehaviour {
 		HumanoidAnimator = gameObject.GetComponentInChildren<Animator>();
 		Weapon = new ShortSword();
 		currentState = State.Idle;
+
+		//Get audio components
+		SwordStrikeAudio = gameObject.transform.Find("SFXParent").Find("SwordStrikeAudio").GetComponent<AudioSource>();
 	}
 
 	//Check invulnerability and let it end in time
@@ -107,6 +114,9 @@ public abstract class Humanoid : MonoBehaviour {
 			}
 		}
 		if (isStandardAttacking) {
+			if (!SwordStrikeAudio.isPlaying && isStandardAttackingTimer <= 0){
+				SwordStrikeAudio.Play ();
+			}
 			currentState = State.WindDown;
 			Hitbox.SetActive (true);
 			isStandardAttackingTimer += Time.deltaTime;
@@ -145,6 +155,7 @@ public abstract class Humanoid : MonoBehaviour {
 
 	protected virtual void KnockBack (string attackType){
 		HumanoidAnimator.SetTrigger ("KnockBackTrigger");
+		HumanoidAnimator.SetBool ("StandardAttackBool", false);
 	}
 
 }

@@ -23,18 +23,19 @@ public class HitBoxScript : MonoBehaviour {
 
 	void Update(){
 		if (gameObject.tag == "Player") {
-			ThisWeaponDamage = PlayerInventory.weapons [0].WeaponDamage;
+			if (PlayerInventory.weapons.Count > 0) {
+				ThisWeaponDamage = PlayerInventory.weapons [0].WeaponDamage;
+			} else {
+				ThisWeaponDamage = 0;
+			}
 		} else {
 			ThisWeaponDamage = ThisHumanoid.Weapon.WeaponDamage;
 		}				
 	}
 
 	void OnTriggerEnter (Collider other){
-		print ("attaque!");
 		if (other.gameObject.tag != gameObject.tag) {
 			other.gameObject.GetComponent<Humanoid> ().GetHit (damage: ThisWeaponDamage, attackType: thisAttackType,  attacker: ThisHumanoid);
-			print ("Attaque the enemy!");
-
 		}
 	}
 

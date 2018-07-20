@@ -3,19 +3,33 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class Player : Humanoid{
+
+	static public bool PlayerIsPickingUp; //is the player rolling
+
 	void Start(){
 		gameObject.tag = "Player";
 		Test ();
 		Speed = 7;
+		standardAttackDuration = .3f;
 	}
 
 	void Update (){
-		if (PlayerInventory.weapons.Count != 0) {
+		if (PlayerInventory.weapons.Count > 0) {
 			StandardAttack ((Input.GetKeyDown ("mouse 0")));
+		} else {
+			Hitbox.SetActive (false);
 		}
 		Invulnerable ();
 		Move ();
+		if (Health <= 0) {
+			Die ();
+		}
 
+		if (Input.GetKeyDown (KeyCode.X)) {
+			PlayerIsPickingUp = true;
+		} else {
+			PlayerIsPickingUp = false;
+		}
 	}
 
 	void FixedUpdate(){
@@ -23,7 +37,7 @@ public class Player : Humanoid{
 
 	protected override void Test ()
 	{
-		print ("Player made");
+//		print ("Player made");
 	}
 
 	private Vector3 moveVector;
@@ -81,5 +95,10 @@ public class Player : Humanoid{
 	public override void CheckState ()
 	{
 		throw new System.NotImplementedException ();
+	}
+
+	protected override void Die ()
+	{
+		print ("Player dead yo");
 	}
 }

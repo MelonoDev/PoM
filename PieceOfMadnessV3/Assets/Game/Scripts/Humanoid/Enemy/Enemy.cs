@@ -6,8 +6,8 @@ public class Enemy : Humanoid{
 
 	//Move to the player
 	public GameObject player;
-	public float noticeDistanceToPlayer = 15f;
-	public float attackDistanceToPlayer = 3.7f;
+	public float noticeDistanceToPlayer = 10;
+	public float attackDistanceToPlayer = 4;
 
 	//State Timers
 	protected float WindDownTimer = 0f; 
@@ -21,8 +21,8 @@ public class Enemy : Humanoid{
 
 	void Start (){
 		gameObject.tag = "Enemy";
-		gameObject.layer = LayerMask.NameToLayer("EnemyLayer");
-		player = GameObject.FindGameObjectWithTag ("Player");
+//		gameObject.layer = LayerMask.NameToLayer("EnemyLayer");
+		player = GameObject.Find ("MainObjectPlayer");
 		standardAttackWindupDuration = 1.35f; //change the windup to attack
 	}
 
@@ -31,6 +31,11 @@ public class Enemy : Humanoid{
 		Invulnerable ();
 		CheckState ();
 		StandardAttack (currentState == State.StandardAttacking);
+		if (Health <= 0) {
+			currentState = State.Dead;
+		}
+
+		print (Vector3.Distance (gameObject.transform.position, player.transform.position).ToString ());
 	}
 
 	void FixedUpdate (){
@@ -38,7 +43,7 @@ public class Enemy : Humanoid{
 
 	protected override void Test ()
 	{
-		print (Health.ToString () + " EnemyHealth");
+//		print (Health.ToString () + " EnemyHealth");
 	}
 		
 	protected override void Move ()
@@ -62,6 +67,7 @@ public class Enemy : Humanoid{
 			HumanoidAnimator.SetBool ("IdleBool", true);
 			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < noticeDistanceToPlayer){
 				currentState = State.Move;
+				print (noticeDistanceToPlayer.ToString ());
 			}
 			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < attackDistanceToPlayer){
 				currentState = State.StandardAttacking;
@@ -91,7 +97,7 @@ public class Enemy : Humanoid{
 			//empty and unused for enemies
 			break;
 		case State.Dead:
-
+			Die ();
 			break;
 		case State.Knockback:
 			KnockbackTimer += Time.deltaTime;
@@ -106,6 +112,7 @@ public class Enemy : Humanoid{
 			if (WindDownTimer > WindDownDuration) {
 				MoveAfterWindDownTimer += Time.deltaTime;
 				Move ();
+				HumanoidAnimator.SetBool ("WalkBool", true);
 				if (MoveAfterWindDownTimer > MoveAfterWindDownDuration) {
 					currentState = State.Idle;
 					WindDownTimer = 0;
@@ -113,6 +120,22 @@ public class Enemy : Humanoid{
 			}
 			break;
 		}
+	}
+
+	protected override void Die ()
+	{
+		HumanoidAnimator.SetTrigger ("DeathTrigger");
+
+		//drop yo wepon
+		GameObject weaponDropInstance;
+		GameObject weaponDrop = (Resources.Load(Weapon.WeaponName)) as GameObject;
+
+		weaponDropInstance = Instantiate(weaponDrop, gameObject.transform.position, gameObject.transform.rotation);
+		weaponDropInstance.GetComponent<WeaponPickUp>().ThisWeapon = Weapon;
+
+		Destroy (Controller);
+		Destroy (Hitbox);
+		Destroy (this);
 	}
 }
 /*
