@@ -141,9 +141,7 @@ public abstract class Humanoid : MonoBehaviour {
 			if (attackType == "StandardAttack") {
 				Health -= damage;
 				IsInvulnerable = true; //special attacks are combo attacks by the player, so no vulnerabiloty there
-				if (gameObject.tag == "Enemy") {
-					KnockBack (attackType);
-				}
+				KnockBack (attackType);
 			} else if (attackType == "SpecialAttack") {
 				Health -= 2 * damage;
 				KnockBack (attackType);

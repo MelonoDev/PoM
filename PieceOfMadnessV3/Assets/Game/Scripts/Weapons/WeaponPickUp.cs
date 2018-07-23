@@ -9,6 +9,7 @@ public class WeaponPickUp : MonoBehaviour {
 
 	void Update () {
 		if (Player.PlayerIsPickingUp && playerInRange) {
+			UISwordInventory.NewWeaponPickedUp = true;
 			PlayerInventory.weapons.Add(ThisWeapon);
 			Destroy (gameObject);
 		}

@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour {
 	private bool noItems = false;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		SwordBreakAudio = gameObject.GetComponent<AudioSource> ();
 
 		weapons.Add (new ShortSword ());

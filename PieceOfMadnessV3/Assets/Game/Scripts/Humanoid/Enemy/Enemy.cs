@@ -17,7 +17,8 @@ public class Enemy : Humanoid{
 	protected float MoveAfterWindDownDuration = 2f;
 
 	protected float KnockbackTimer = 0f;
-	protected float KnockbackDuration = 2f;
+	protected float KnockbackDuration = 1.3f;
+	protected float KnockbackAmount = 2f;
 
 	void Start (){
 		gameObject.tag = "Enemy";
@@ -26,7 +27,7 @@ public class Enemy : Humanoid{
 		standardAttackWindupDuration = 1.35f; //change the windup to attack
 	}
 
-	void Update (){
+	void FixedUpdate (){
 		Test ();
 		Invulnerable ();
 		CheckState ();
@@ -35,11 +36,10 @@ public class Enemy : Humanoid{
 			currentState = State.Dead;
 		}
 
-		print (Vector3.Distance (gameObject.transform.position, player.transform.position).ToString ());
+		//print (Vector3.Distance (gameObject.transform.position, player.transform.position).ToString ());
 	}
 
-	void FixedUpdate (){
-	}
+
 
 	protected override void Test ()
 	{
@@ -56,6 +56,9 @@ public class Enemy : Humanoid{
 	protected override void KnockBack (string attackType)
 	{
 		base.KnockBack (attackType);
+		isStandardAttacking = false;
+		Move ();
+		ResetTimers ();
 		currentState = State.Knockback;
 	}
 		
@@ -101,6 +104,7 @@ public class Enemy : Humanoid{
 			break;
 		case State.Knockback:
 			KnockbackTimer += Time.deltaTime;
+			Controller.Move (transform.TransformDirection(Vector3.back) * Time.deltaTime * KnockbackAmount);
 			if (KnockbackTimer > KnockbackDuration) {
 				currentState = State.Idle;
 				KnockbackTimer = 0;
@@ -136,6 +140,17 @@ public class Enemy : Humanoid{
 		Destroy (Controller);
 		Destroy (Hitbox);
 		Destroy (this);
+	}
+
+	//reset the timers in case of interruption of a state, in the middle of any timer
+	protected void ResetTimers(){
+		WindDownTimer = 0;
+		MoveAfterWindDownTimer = 0;
+		KnockbackTimer = 0;
+		InvulnerabilityTimer = 0;
+		isSpecialAttackingTimer = 0;
+		isStandardAttackingTimer = 0;
+		standardAttackWindupTimer = 0;
 	}
 }
 /*
