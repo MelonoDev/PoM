@@ -147,6 +147,8 @@ public class Player : Humanoid{
 		PlayerIsPickingUp = true;
 		HumanoidAnimator.SetBool ("RollBool", true);
 
+
+
 		if (rollTimer >= rollDuration){
 			rollTimer = 0;
 			IsInvulnerable = false;

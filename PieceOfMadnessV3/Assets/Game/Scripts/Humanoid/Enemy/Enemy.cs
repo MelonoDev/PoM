@@ -8,6 +8,8 @@ public class Enemy : Humanoid{
 	public GameObject player;
 	public float noticeDistanceToPlayer = 10;
 	public float attackDistanceToPlayer = 4;
+	private NavMeshAgent agent;
+	public float TurnRate = 9001;
 
 	//State Timers
 	protected float WindDownTimer = 0f; 
@@ -25,6 +27,8 @@ public class Enemy : Humanoid{
 //		gameObject.layer = LayerMask.NameToLayer("EnemyLayer");
 		player = GameObject.Find ("MainObjectPlayer");
 		standardAttackWindupDuration = 1.35f; //change the windup to attack
+		agent = gameObject.GetComponent<NavMeshAgent>(); 
+		agent.speed = Speed;
 	}
 
 	void FixedUpdate (){
@@ -48,16 +52,26 @@ public class Enemy : Humanoid{
 		
 	protected override void Move ()
 	{
+		/*
 		Vector3 relativePos = player.transform.position - transform.position;
 		Controller.Move (transform.TransformDirection(Vector3.forward) * Time.deltaTime * Speed);
 		transform.rotation = Quaternion.LookRotation(relativePos);
+*/
+		agent.angularSpeed = TurnRate;
+		agent.SetDestination (player.transform.position);
 	}
 
 	protected override void KnockBack (string attackType)
 	{
+		agent.enabled = false;
+
 		base.KnockBack (attackType);
 		isStandardAttacking = false;
-		Move ();
+		//Move ();
+		Vector3 relativePos = player.transform.position - transform.position;
+		Controller.Move (transform.TransformDirection(Vector3.forward) * Time.deltaTime * Speed);
+		transform.rotation = Quaternion.LookRotation(relativePos);
+
 		ResetTimers ();
 		currentState = State.Knockback;
 	}
@@ -91,7 +105,7 @@ public class Enemy : Humanoid{
 			break;
 		case State.StandardAttacking:
 			//checked in Update()
-
+			agent.angularSpeed = 0;
 			break;
 		case State.SpecialAttacking:
 			//empty and unused for enemies
@@ -108,6 +122,7 @@ public class Enemy : Humanoid{
 			if (KnockbackTimer > KnockbackDuration) {
 				currentState = State.Idle;
 				KnockbackTimer = 0;
+				agent.enabled = true;
 			}
 
 			break;
