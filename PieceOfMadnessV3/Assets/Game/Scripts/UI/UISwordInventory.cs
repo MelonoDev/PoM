@@ -21,10 +21,10 @@ public class UISwordInventory : MonoBehaviour {
 	void Update () {
 		if (PlayerInventory.weapons.Count > NumberInInventory) {
 			if (PlayerInventory.weapons [0].WeaponDurability <= 0) {
-				Invoke ("ChangeSprite", .01f);
+				Invoke ("ChangeSprite", .1f);
 			}
 			if (NewWeaponPickedUp) {
-				Invoke ("ChangeSprite", .01f);
+				Invoke ("ChangeSprite", .1f);
 				NewWeaponPickedUp = false;
 			}
 

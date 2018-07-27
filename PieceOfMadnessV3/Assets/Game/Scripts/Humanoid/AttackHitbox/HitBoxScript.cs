@@ -4,29 +4,36 @@ using UnityEngine;
 
 public class HitBoxScript : MonoBehaviour {
 	public Humanoid ThisHumanoid;
+
 	public int ThisWeaponDamage;
 	private string thisAttackType;
 
 	private string OtherTag;
+
+
 
 	void Awake(){
 		ThisHumanoid = gameObject.GetComponentInParent<Humanoid>();
 	}
 
 	void OnEnable(){
+
 		if (ThisHumanoid.isStandardAttacking) {
 			thisAttackType = "StandardAttack";
+		} else if (ThisHumanoid.isSpecialAttacking) {
+			thisAttackType = "SpecialAttack";
 		} else {
 			thisAttackType = "NoAttack";
 		}
 	}
-
+		
 	void Update(){
 		if (gameObject.tag == "Player") {
 			if (PlayerInventory.weapons.Count > 0) {
 				ThisWeaponDamage = PlayerInventory.weapons [0].WeaponDamage;
 			} else {
 				ThisWeaponDamage = 0;
+				print ("oops");
 			}
 		} else {
 			ThisWeaponDamage = ThisHumanoid.Weapon.WeaponDamage;
@@ -35,14 +42,10 @@ public class HitBoxScript : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other){
 		if (other.gameObject.tag != gameObject.tag) {
-			other.gameObject.GetComponent<Humanoid> ().GetHit (damage: ThisWeaponDamage, attackType: thisAttackType,  attacker: ThisHumanoid);
+			other.gameObject.GetComponent<Humanoid> ().GetHit (damage: ThisWeaponDamage, attackType: thisAttackType, attacker: ThisHumanoid);
+			if (thisAttackType == "SpecialAttack") {
+				other.gameObject.GetComponent<Humanoid> ().HasBeenSpecialAttacked = true;
+			}
 		}
 	}
-
-	/*
-	void OnTriggerExit (Collider other){
-		if (other.gameObject.tag == OtherTag) {
-		}
-	}
-	*/
 }

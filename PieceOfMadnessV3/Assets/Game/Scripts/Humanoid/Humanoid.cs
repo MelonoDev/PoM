@@ -36,6 +36,7 @@ public abstract class Humanoid : MonoBehaviour {
 
 	//audio
 	public AudioSource SwordStrikeAudio;
+	public AudioSource StruckBloodAudio;
 	public AudioSource DeathAudio;
 
 	//Stats
@@ -53,7 +54,9 @@ public abstract class Humanoid : MonoBehaviour {
 	//Special Attack
 	public bool isSpecialAttacking = false;
 	protected float isSpecialAttackingTimer = 0f;
-	protected float specialAttackDuration = 1f;
+	protected float specialAttackDuration = .3f;
+
+	public bool HasBeenSpecialAttacked = false; //for invulnerability
 
 	//Invulnerability
 	public bool IsInvulnerable = false;
@@ -82,15 +85,24 @@ public abstract class Humanoid : MonoBehaviour {
 
 		//Get audio components
 		SwordStrikeAudio = gameObject.transform.Find("SFXParent").Find("SwordStrikeAudio").GetComponent<AudioSource>();
+		StruckBloodAudio = gameObject.transform.Find("SFXParent").Find("StruckBloodAudio").GetComponent<AudioSource>();
+
 	}
 
 	//Check invulnerability and let it end in time
 	protected void Invulnerable(){ //put in Update
-		if (IsInvulnerable) {
+		if (IsInvulnerable && !HasBeenSpecialAttacked) {
 			InvulnerabilityTimer += Time.deltaTime;
-			if (InvulnerabilityTimer >= InvulnerabilityLength){
+			if (InvulnerabilityTimer >= InvulnerabilityLength) {
 				IsInvulnerable = false;
 				InvulnerabilityTimer = 0;
+			}
+		} else if (IsInvulnerable && HasBeenSpecialAttacked) {
+			InvulnerabilityTimer += Time.deltaTime;
+			if (InvulnerabilityTimer >= specialAttackDuration) {
+				IsInvulnerable = false;
+				InvulnerabilityTimer = 0;
+				HasBeenSpecialAttacked = false;
 			}
 		}
 	}
@@ -104,6 +116,7 @@ public abstract class Humanoid : MonoBehaviour {
 				if (gameObject.tag != "Player") {
 					standardAttackWindupTimer += Time.deltaTime;
 				} else {
+					HumanoidAnimator.SetBool("RollBool", false);
 					isStandardAttacking = true;
 				}
 			}
@@ -137,17 +150,20 @@ public abstract class Humanoid : MonoBehaviour {
 
 
 	public void GetHit (int damage, string attackType, Humanoid attacker){
-		if (!IsInvulnerable) {
-			if (attackType == "StandardAttack") {
-				Health -= damage;
-				IsInvulnerable = true; //special attacks are combo attacks by the player, so no vulnerabiloty there
-				KnockBack (attackType);
-			} else if (attackType == "SpecialAttack") {
-				Health -= 2 * damage;
-				KnockBack (attackType);
-			} else if (attackType == "NoAttack") {
-				print ("This is not supposed to happen");
-			}
+		if ((attackType == "StandardAttack") && (!IsInvulnerable)) {
+			StruckBloodAudio.pitch = Random.Range (.6f, 1.6f);
+			StruckBloodAudio.Play ();
+			Health -= damage;
+			IsInvulnerable = true; //special attacks are combo attacks by the player, so no vulnerabiloty there
+			KnockBack (attackType);
+		} else if ((attackType == "SpecialAttack") && (!IsInvulnerable)) {
+			StruckBloodAudio.pitch = Random.Range (.5f, 1.3f);
+			StruckBloodAudio.Play ();
+			Health -= damage * 2;
+			IsInvulnerable = true;
+			KnockBack (attackType);
+		} else if (attackType == "NoAttack") {
+			print ("This is not supposed to happen");
 		}
 	}
 

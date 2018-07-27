@@ -67,7 +67,6 @@ public class Enemy : Humanoid{
 
 		base.KnockBack (attackType);
 		isStandardAttacking = false;
-		//Move ();
 		Vector3 relativePos = player.transform.position - transform.position;
 		Controller.Move (transform.TransformDirection(Vector3.forward) * Time.deltaTime * Speed);
 		transform.rotation = Quaternion.LookRotation(relativePos);
@@ -84,7 +83,6 @@ public class Enemy : Humanoid{
 			HumanoidAnimator.SetBool ("IdleBool", true);
 			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < noticeDistanceToPlayer){
 				currentState = State.Move;
-				print (noticeDistanceToPlayer.ToString ());
 			}
 			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < attackDistanceToPlayer){
 				currentState = State.StandardAttacking;
@@ -168,10 +166,3 @@ public class Enemy : Humanoid{
 		standardAttackWindupTimer = 0;
 	}
 }
-/*
-Idle, 
-Move, 
-StandardAttacking,
-SpecialAttacking,
-Dead,
-Knockback*/
