@@ -6,12 +6,15 @@ public class WeaponPickUp : MonoBehaviour {
 
 	private bool playerInRange = false; //is the player inside the trigger
 	public WeaponParentClass ThisWeapon;
+	public int MaxWeaponInInventory = 5;
 
 	void Update () {
-		if (Player.PlayerIsPickingUp && playerInRange) {
-			UISwordInventory.NewWeaponPickedUp = true;
-			PlayerInventory.weapons.Add(ThisWeapon);
-			Destroy (gameObject);
+		if (PlayerInventory.weapons.Count < MaxWeaponInInventory) {
+			if (Player.PlayerIsPickingUp && playerInRange) {
+				GiveNumberInInv.NewWeaponPickedUp = true;
+				PlayerInventory.weapons.Add (ThisWeapon);
+				Destroy (gameObject);
+			}
 		}
 	}
 

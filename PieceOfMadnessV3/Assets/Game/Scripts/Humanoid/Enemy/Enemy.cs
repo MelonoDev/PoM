@@ -6,8 +6,8 @@ public class Enemy : Humanoid{
 
 	//Move to the player
 	public GameObject player;
-	public float noticeDistanceToPlayer = 10;
-	public float attackDistanceToPlayer = 4;
+	public float noticeDistanceToPlayer = 10f;
+	public float attackDistanceToPlayer = 5f;
 	private NavMeshAgent agent;
 	public float TurnRate = 9001;
 
@@ -22,9 +22,12 @@ public class Enemy : Humanoid{
 	protected float KnockbackDuration = 1.3f;
 	protected float KnockbackAmount = 2f;
 
-	void Start (){
+	void Start(){
+		StartTheEnemy ();
+	}
+
+	public void StartTheEnemy (){
 		gameObject.tag = "Enemy";
-//		gameObject.layer = LayerMask.NameToLayer("EnemyLayer");
 		player = GameObject.Find ("MainObjectPlayer");
 		standardAttackWindupDuration = 1.35f; //change the windup to attack
 		agent = gameObject.GetComponent<NavMeshAgent>(); 
@@ -79,26 +82,11 @@ public class Enemy : Humanoid{
 	{
 		switch (currentState) {
 		case State.Idle:
-			HumanoidAnimator.SetBool ("WalkBool", false);
-			HumanoidAnimator.SetBool ("IdleBool", true);
-			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < noticeDistanceToPlayer){
-				currentState = State.Move;
-			}
-			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < attackDistanceToPlayer){
-				currentState = State.StandardAttacking;
-			}
+			IdleState ();
 
 			break;		
 		case State.Move:
-			Move ();
-			HumanoidAnimator.SetBool ("WalkBool", true);
-			HumanoidAnimator.SetBool ("IdleBool", false);			
-			if (Vector3.Distance(gameObject.transform.position, player.transform.position) >= noticeDistanceToPlayer){
-				currentState = State.Idle;
-			}
-			if (Vector3.Distance(gameObject.transform.position, player.transform.position) < attackDistanceToPlayer){
-				currentState = State.Idle;
-			}
+			MoveState ();
 
 			break;
 		case State.StandardAttacking:
@@ -153,6 +141,7 @@ public class Enemy : Humanoid{
 		Destroy (Controller);
 		Destroy (Hitbox);
 		Destroy (this);
+		Destroy (BloodParticles);
 	}
 
 	//reset the timers in case of interruption of a state, in the middle of any timer
@@ -164,5 +153,28 @@ public class Enemy : Humanoid{
 		isSpecialAttackingTimer = 0;
 		isStandardAttackingTimer = 0;
 		standardAttackWindupTimer = 0;
+	}
+
+	protected virtual void MoveState(){
+		Move ();
+		HumanoidAnimator.SetBool ("WalkBool", true);
+		HumanoidAnimator.SetBool ("IdleBool", false);			
+		if (Vector3.Distance(gameObject.transform.position, player.transform.position) >= noticeDistanceToPlayer){
+			currentState = State.Idle;
+		}
+		if (Vector3.Distance(gameObject.transform.position, player.transform.position) < attackDistanceToPlayer){
+			currentState = State.Idle;
+		}
+	}
+
+	protected virtual void IdleState(){
+		HumanoidAnimator.SetBool ("WalkBool", false);
+		HumanoidAnimator.SetBool ("IdleBool", true);
+		if (Vector3.Distance(gameObject.transform.position, player.transform.position) < noticeDistanceToPlayer){
+			currentState = State.Move;
+		}
+		if (Vector3.Distance(gameObject.transform.position, player.transform.position) < attackDistanceToPlayer){
+			currentState = State.StandardAttacking;
+		}
 	}
 }

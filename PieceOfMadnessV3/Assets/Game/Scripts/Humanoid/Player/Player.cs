@@ -36,6 +36,7 @@ public class Player : Humanoid{
 	}
 
 	void Update (){
+		Bleeding ();
 		if (PlayerInventory.weapons.Count > 0 && !rollActivate) {
 			StandardAttack (Input.GetKeyDown ("mouse 0"));
 			SpecialAttack (Input.GetKeyDown ("mouse 1"));

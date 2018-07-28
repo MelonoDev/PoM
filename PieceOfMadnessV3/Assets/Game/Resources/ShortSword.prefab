@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 23897282197861174}
   - component: {fileID: 135881131183707204}
   - component: {fileID: 114885040309034250}
+  - component: {fileID: 122714162991832374}
   m_Layer: 0
   m_Name: ShortSword
   m_TagString: Untagged
@@ -67,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499379911742274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.65, y: 0, z: -10.7}
+  m_LocalPosition: {x: 92.10965, y: 2.1373668, z: 85.94328}
   m_LocalScale: {x: 4.2747307, y: 4.2747335, z: 4.2747335}
   m_Children:
   - {fileID: 4294181241370374}
@@ -80,7 +81,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499379911742274}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -170,6 +171,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ThisWeapon: {fileID: 0}
+--- !u!122 &122714162991832374
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499379911742274}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4288734439
+  m_Size: 1.17
 --- !u!135 &135881131183707204
 SphereCollider:
   m_ObjectHideFlags: 1

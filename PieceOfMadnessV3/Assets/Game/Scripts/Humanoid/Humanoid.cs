@@ -33,6 +33,7 @@ public abstract class Humanoid : MonoBehaviour {
 	public Animator HumanoidAnimator;
 	public WeaponParentClass Weapon;
 	public State currentState;
+	public GameObject BloodParticles;
 
 	//audio
 	public AudioSource SwordStrikeAudio;
@@ -61,7 +62,11 @@ public abstract class Humanoid : MonoBehaviour {
 	//Invulnerability
 	public bool IsInvulnerable = false;
 	protected float InvulnerabilityTimer = 0f;
-	protected float InvulnerabilityLength = 1f;
+	protected float InvulnerabilityDuration = 1f;
+
+	public bool IsBleeding = false; //for getting hit visuals
+	public float BleedTimer = 0;
+	public float BleedDuration = .5f;
 
 	//abstract functions
 	public abstract void CheckState ();
@@ -82,6 +87,8 @@ public abstract class Humanoid : MonoBehaviour {
 		HumanoidAnimator = gameObject.GetComponentInChildren<Animator>();
 		Weapon = new ShortSword();
 		currentState = State.Idle;
+		BloodParticles = gameObject.transform.Find ("ParticlesParent").Find ("BloodParticles").gameObject;
+		BloodParticles.SetActive (false);
 
 		//Get audio components
 		SwordStrikeAudio = gameObject.transform.Find("SFXParent").Find("SwordStrikeAudio").GetComponent<AudioSource>();
@@ -89,11 +96,16 @@ public abstract class Humanoid : MonoBehaviour {
 
 	}
 
+	void Update (){
+
+		Bleeding ();
+	}
+
 	//Check invulnerability and let it end in time
 	protected void Invulnerable(){ //put in Update
 		if (IsInvulnerable && !HasBeenSpecialAttacked) {
 			InvulnerabilityTimer += Time.deltaTime;
-			if (InvulnerabilityTimer >= InvulnerabilityLength) {
+			if (InvulnerabilityTimer >= InvulnerabilityDuration) {
 				IsInvulnerable = false;
 				InvulnerabilityTimer = 0;
 			}
@@ -108,7 +120,7 @@ public abstract class Humanoid : MonoBehaviour {
 	}
 
 	//StandardAttack
-	protected void StandardAttack(bool AttackTrigger){
+	protected virtual void StandardAttack(bool AttackTrigger){
 		if (AttackTrigger) {
 			if (!isStandardAttacking) {
 				HumanoidAnimator.SetBool ("StandardAttackBool", AttackTrigger);
@@ -149,7 +161,10 @@ public abstract class Humanoid : MonoBehaviour {
 
 
 
-	public void GetHit (int damage, string attackType, Humanoid attacker){
+	public virtual void GetHit (int damage, string attackType, Humanoid attacker){
+		if (!IsInvulnerable) {
+			IsBleeding = true;
+		}
 		if ((attackType == "StandardAttack") && (!IsInvulnerable)) {
 			StruckBloodAudio.pitch = Random.Range (.6f, 1.6f);
 			StruckBloodAudio.Play ();
@@ -172,6 +187,18 @@ public abstract class Humanoid : MonoBehaviour {
 		HumanoidAnimator.SetBool ("StandardAttackBool", false);
 	}
 
+	public virtual void Bleeding (){
+	if (IsBleeding) {
+		BloodParticles.SetActive (true);
+		BleedTimer += Time.deltaTime;
+		if (BleedTimer >= BleedDuration) {
+			BleedTimer = 0f;
+			IsBleeding = false;
+		}
+	} else {
+		BloodParticles.SetActive (false);
+	}
+	}
 }
 
 

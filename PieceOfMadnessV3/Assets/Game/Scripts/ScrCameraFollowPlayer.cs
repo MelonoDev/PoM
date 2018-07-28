@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScrCameraFollowPlayer : MonoBehaviour {
 
 	public Transform PlayerObject;
-	private float CameraHeight = 15f;
+	private float CameraHeight = 20f;
 
 	// Use this for initialization
 	void Start () {

@@ -14,8 +14,8 @@ public class PlayerInventory : MonoBehaviour {
 		SwordBreakAudio = gameObject.GetComponent<AudioSource> ();
 
 		weapons.Add (new ShortSword ());
-		weapons.Add (new ShortSword ());
 		weapons.Add (new BroadSword ());
+		weapons.Add (new ShortSword ());
 
 
 		selectWeapon ();
