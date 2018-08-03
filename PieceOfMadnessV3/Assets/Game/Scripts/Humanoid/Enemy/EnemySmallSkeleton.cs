@@ -10,6 +10,7 @@ public class EnemySmallSkeleton : Enemy {
 		Speed = 2.5f;
 		MaxHealth = 8;
 		Health = MaxHealth;
+		Weapon = new ShortSword();
 		StartTheEnemy ();
 	}
 

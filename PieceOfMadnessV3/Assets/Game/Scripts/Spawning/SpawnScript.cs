@@ -8,16 +8,24 @@ public class SpawnScript : MonoBehaviour {
 	static public int WaveNumber = 0;
 	static public float WaveTimer = 0;
 	static public float WaveDuration;
+	private AudioSource NextWaveAudio;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+		NextWaveAudio = gameObject.GetComponent<AudioSource> ();
+		WaveNumber = 0;
+		WaveTimer = 0;
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
+		CheckForNewWave (); 
+	}
+
+	void CheckForNewWave() {
 		if (NewWave) {
 			NewWave = false;
+			NextWaveAudio.Play ();
 			WaveNumber++;
 			WaveDuration = WaveNumber * 4 + 15f;
 

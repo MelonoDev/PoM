@@ -168,6 +168,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1194772473985380
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4567351701961212}
+  - component: {fileID: 122682297843890350}
+  m_Layer: 0
+  m_Name: InvincibilityObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1206271702267148
 GameObject:
   m_ObjectHideFlags: 1
@@ -979,6 +995,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4567351701961212}
   - {fileID: 4745378120748650}
   - {fileID: 4943870985022150}
   - {fileID: 4551389328858846}
@@ -1012,7 +1029,7 @@ Transform:
   m_Children:
   - {fileID: 4397019704946550}
   m_Father: {fileID: 4524086642324256}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &4561368086399806
 Transform:
@@ -1028,6 +1045,19 @@ Transform:
   - {fileID: 4122286513876804}
   - {fileID: 4902786396070134}
   m_Father: {fileID: 4906806305730574}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4567351701961212
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1194772473985380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.51, y: 3.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4524086642324256}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4584513249376240
@@ -1123,7 +1153,7 @@ Transform:
   - {fileID: 4259192610142758}
   - {fileID: 4405658539376338}
   m_Father: {fileID: 4524086642324256}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4745378120748650
 Transform:
@@ -1137,7 +1167,7 @@ Transform:
   m_Children:
   - {fileID: 4849021222631902}
   m_Father: {fileID: 4524086642324256}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4783640844135580
 Transform:
@@ -1243,7 +1273,7 @@ Transform:
   m_LocalScale: {x: 3.913123, y: 3.9131217, z: 3.9131217}
   m_Children: []
   m_Father: {fileID: 4524086642324256}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4977620315046644
 Transform:
@@ -1982,6 +2012,7 @@ MonoBehaviour:
   Weapon: {fileID: 0}
   currentState: 0
   BloodParticles: {fileID: 0}
+  InvincibilityObject: {fileID: 0}
   SwordStrikeAudio: {fileID: 0}
   StruckBloodAudio: {fileID: 0}
   DeathAudio: {fileID: 0}
@@ -2044,6 +2075,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SwordBreakAudio: {fileID: 0}
+--- !u!122 &122682297843890350
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1194772473985380}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278190265
+  m_Size: 1.11
 --- !u!124 &124004599745844386
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2184,7 +2226,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d4136eff38990364fb86518a419dee64, type: 2}
+  - {fileID: 2100000, guid: cd5dc17001d057445a9326803729d607, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

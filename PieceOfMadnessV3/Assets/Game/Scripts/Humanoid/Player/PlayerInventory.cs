@@ -11,6 +11,11 @@ public class PlayerInventory : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		while (weapons.Count > 0) {
+			weapons.RemoveAt (0);
+			print ("removed ");
+
+		}
 		SwordBreakAudio = gameObject.GetComponent<AudioSource> ();
 
 		weapons.Add (new ShortSword ());

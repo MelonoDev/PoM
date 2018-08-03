@@ -131,7 +131,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Move2
       takeName: Take 001
-      firstFrame: 364
+      firstFrame: 365
       lastFrame: 422
       wrapMode: 0
       orientationOffsetY: 0

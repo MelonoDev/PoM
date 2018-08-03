@@ -34,6 +34,7 @@ public abstract class Humanoid : MonoBehaviour {
 	public WeaponParentClass Weapon;
 	public State currentState;
 	public GameObject BloodParticles;
+	public GameObject InvincibilityObject;
 
 	//audio
 	public AudioSource SwordStrikeAudio;
@@ -89,6 +90,7 @@ public abstract class Humanoid : MonoBehaviour {
 		currentState = State.Idle;
 		BloodParticles = gameObject.transform.Find ("ParticlesParent").Find ("BloodParticles").gameObject;
 		BloodParticles.SetActive (false);
+		InvincibilityObject = gameObject.transform.Find ("InvincibilityObject").gameObject;
 
 		//Get audio components
 		SwordStrikeAudio = gameObject.transform.Find("SFXParent").Find("SwordStrikeAudio").GetComponent<AudioSource>();

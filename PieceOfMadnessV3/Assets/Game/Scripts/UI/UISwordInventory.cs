@@ -22,7 +22,7 @@ public class UISwordInventory : MonoBehaviour {
 		InventoryNumber += NumberInInventory;
 		print (NumberInInventory.ToString () + " is the numinv");
 		ChangeSprite ();
-
+		//StartCoroutine(ChangeSprite());
 	}
 	
 	// Update is called once per frame
@@ -30,22 +30,29 @@ public class UISwordInventory : MonoBehaviour {
 
 		if (PlayerInventory.weapons.Count > NumberInInventory) {
 			if (PlayerInventory.weapons [0].WeaponDurability <= 0) {
-				Invoke ("ChangeSprite", .1f);
-				//ChangeSprite ();
+				//Invoke ("ChangeSprite", .1f);
+				ChangeSprite ();
+				//StartCoroutine(ChangeSprite());
+				print ("Weapon gotta be changed now");
 
 			}
 			if (MyNewWeaponPickedUp) {
-				Invoke ("ChangeSprite", .1f);
-				//ChangeSprite ();
+				//Invoke ("ChangeSprite", .1f);
+				ChangeSprite ();
+				//StartCoroutine(ChangeSprite());
+
 				MyNewWeaponPickedUp = false;
 				print ("Weapon gotta be changed now");
 			}
-
 			DurabilityColour ();
 		}
+		ChangeSprite ();
+
 	}
 
-	void ChangeSprite(){
+	private void ChangeSprite(){
+		//yield return new WaitForSeconds (.1f);
+
 		giveNumberInInv.MakeInvNum ();
 
 		if (PlayerInventory.weapons.Count > NumberInInventory) {

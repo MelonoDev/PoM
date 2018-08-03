@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Game/_Scenes/LevelEndlessHoard.unity
+    guid: 8c4a73ba50894d248b3fcc404bac09ab
+  m_configObjects: {}

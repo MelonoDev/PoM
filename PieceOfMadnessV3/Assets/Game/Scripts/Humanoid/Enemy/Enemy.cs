@@ -22,6 +22,9 @@ public class Enemy : Humanoid{
 	protected float KnockbackDuration = 1.3f;
 	protected float KnockbackAmount = 2f;
 
+
+
+
 	void Start(){
 		StartTheEnemy ();
 	}
@@ -42,6 +45,8 @@ public class Enemy : Humanoid{
 		if (Health <= 0) {
 			currentState = State.Dead;
 		}
+
+		InvincibilityObject.SetActive (IsInvulnerable);
 
 		//print (Vector3.Distance (gameObject.transform.position, player.transform.position).ToString ());
 	}
@@ -142,6 +147,7 @@ public class Enemy : Humanoid{
 		Destroy (Hitbox);
 		Destroy (this);
 		Destroy (BloodParticles);
+		Destroy (InvincibilityObject);
 	}
 
 	//reset the timers in case of interruption of a state, in the middle of any timer

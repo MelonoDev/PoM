@@ -16,6 +16,6 @@ public class ScrCameraFollowPlayer : MonoBehaviour {
 		float POx = PlayerObject.transform.position.x;
 		float POz = PlayerObject.transform.position.z;
 
-		gameObject.transform.position = new Vector3(POx, CameraHeight, POz-5);
+		gameObject.transform.position = new Vector3(POx, CameraHeight, POz-7);
 	}
 }

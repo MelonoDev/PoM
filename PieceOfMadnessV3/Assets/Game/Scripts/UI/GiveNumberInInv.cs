@@ -25,7 +25,7 @@ public class GiveNumberInInv : MonoBehaviour {
 		int i = 0;
 		foreach (Transform invSword in transform) {
 			invSword.gameObject.GetComponent<UISwordInventory> ().NumberInInventory = i;
-			print (invSword.gameObject.GetComponent<UISwordInventory> ().NumberInInventory.ToString () + "updated");
+//			print (invSword.gameObject.GetComponent<UISwordInventory> ().NumberInInventory.ToString () + "updated");
 			i++;
 		}
 	}

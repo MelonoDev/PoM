@@ -23,6 +23,9 @@ public class Player : Humanoid{
 	private float specialAttackMoveSpeed = .125f;
 	private Vector3 specialAttackToPosition;
 
+	//UI elements
+	public GameObject DeathMessage;
+
 	void Start(){
 		gameObject.tag = "Player";
 		Test ();
@@ -31,7 +34,8 @@ public class Player : Humanoid{
 		healthSlider = GameObject.Find ("HealthSlider").GetComponent<Slider> ();
 		healthSlider.maxValue = MaxHealth;
 		UpdateHealth ();
-
+		DeathMessage = GameObject.Find ("DeathMessage").gameObject;
+		DeathMessage.SetActive (false);
 		SwordStrikeSpecialAudio = gameObject.transform.Find("SFXParent").Find("SwordStrikeSpecialAudio").GetComponent<AudioSource>();
 	}
 
@@ -48,9 +52,10 @@ public class Player : Humanoid{
 			Die ();
 		}
 
-		if ((Input.GetKeyDown (KeyCode.E)) && (!isStandardAttacking) && (!isSpecialAttacking)) {
+		if ((Input.GetKeyDown (KeyCode.LeftShift)) && (!isStandardAttacking) && (!isSpecialAttacking)) {
 			rollActivate = true;
 		}
+		InvincibilityObject.SetActive (IsInvulnerable);
 
 	}
 
@@ -132,6 +137,14 @@ public class Player : Humanoid{
 	protected override void Die ()
 	{
 		print ("Player dead yo");
+		HumanoidAnimator.SetTrigger ("DeathTrigger");
+
+		DeathMessage.SetActive (true);
+		Destroy (Controller);
+		Destroy (Hitbox);
+		Destroy (this);
+		//Destroy (BloodParticles);
+		Destroy (InvincibilityObject);	
 	}
 
 	void Roll(){
