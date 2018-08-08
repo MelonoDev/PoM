@@ -2,13 +2,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : Humanoid{
+public abstract class Enemy : Humanoid{
 
 	//Move to the player
-	public GameObject player;
 	public float noticeDistanceToPlayer = 10f;
 	public float attackDistanceToPlayer = 5f;
-	private NavMeshAgent agent;
+	public NavMeshAgent agent;
 	public float TurnRate = 9001;
 
 	//State Timers
@@ -31,7 +30,6 @@ public class Enemy : Humanoid{
 
 	public void StartTheEnemy (){
 		gameObject.tag = "Enemy";
-		player = GameObject.Find ("MainObjectPlayer");
 		standardAttackWindupDuration = 1.35f; //change the windup to attack
 		agent = gameObject.GetComponent<NavMeshAgent>(); 
 		agent.speed = Speed;
@@ -65,7 +63,9 @@ public class Enemy : Humanoid{
 		Controller.Move (transform.TransformDirection(Vector3.forward) * Time.deltaTime * Speed);
 		transform.rotation = Quaternion.LookRotation(relativePos);
 */
+
 		agent.angularSpeed = TurnRate;
+
 		agent.SetDestination (player.transform.position);
 	}
 
@@ -96,7 +96,6 @@ public class Enemy : Humanoid{
 			break;
 		case State.StandardAttacking:
 			//checked in Update()
-			agent.angularSpeed = 0;
 			break;
 		case State.SpecialAttacking:
 			//empty and unused for enemies
@@ -119,6 +118,8 @@ public class Enemy : Humanoid{
 			break;
 		case State.WindDown:
 			WindDownTimer += Time.deltaTime;
+			//agent.angularSpeed = TurnRate;
+
 			if (WindDownTimer > WindDownDuration) {
 				MoveAfterWindDownTimer += Time.deltaTime;
 				Move ();
@@ -136,12 +137,17 @@ public class Enemy : Humanoid{
 	{
 		HumanoidAnimator.SetTrigger ("DeathTrigger");
 
-		//drop yo wepon
-		GameObject weaponDropInstance;
-		GameObject weaponDrop = (Resources.Load(Weapon.WeaponName)) as GameObject;
 
-		weaponDropInstance = Instantiate(weaponDrop, gameObject.transform.position, gameObject.transform.rotation);
-		weaponDropInstance.GetComponent<WeaponPickUp>().ThisWeapon = Weapon;
+		if (Weapon.WeaponID < 9000) {
+			//drop yo wepon
+			//if (!HasBeenSpecialAttacked) {
+				GameObject weaponDropInstance;
+				GameObject weaponDrop = (Resources.Load (Weapon.WeaponName)) as GameObject;
+
+				weaponDropInstance = Instantiate (weaponDrop, gameObject.transform.position, gameObject.transform.rotation);
+				weaponDropInstance.GetComponent<WeaponPickUp> ().ThisWeapon = Weapon;
+			//}
+		}
 
 		Destroy (Controller);
 		Destroy (Hitbox);
@@ -183,4 +189,6 @@ public class Enemy : Humanoid{
 			currentState = State.StandardAttacking;
 		}
 	}
+
+
 }

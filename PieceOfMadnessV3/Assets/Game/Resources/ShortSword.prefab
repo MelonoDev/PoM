@@ -55,8 +55,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1243262303427508}
   m_LocalRotation: {x: -0, y: -0, z: 0.66800827, w: 0.74415386}
-  m_LocalPosition: {x: 0.00007593622, y: 0.12270744, z: -0.30538732}
-  m_LocalScale: {x: 0.054936793, y: 0.05493676, z: 0.05493676}
+  m_LocalPosition: {x: 0.000079506, y: 0.12274, z: -0.18297}
+  m_LocalScale: {x: 0.033587918, y: 0.033587895, z: 0.033587895}
   m_Children: []
   m_Father: {fileID: 4850639888582896}
   m_RootOrder: 0
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499379911742274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92.10965, y: 2.1373668, z: 85.94328}
+  m_LocalPosition: {x: -8.378039, y: 2.1373668, z: -20.807505}
   m_LocalScale: {x: 4.2747307, y: 4.2747335, z: 4.2747335}
   m_Children:
   - {fileID: 4294181241370374}
@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ThisWeapon: {fileID: 0}
+  MaxWeaponInInventory: 5
 --- !u!122 &122714162991832374
 Halo:
   m_ObjectHideFlags: 1

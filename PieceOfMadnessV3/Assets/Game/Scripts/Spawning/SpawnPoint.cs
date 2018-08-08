@@ -6,26 +6,34 @@ public class SpawnPoint : MonoBehaviour {
 
 	public GameObject SmallSkeleton;
 	public GameObject BigSkeleton;
+	public GameObject Warhound;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void SpawnEnemyForWave (int waveNumber, int spawnPointNumber){
 		int e = 0;
-		while (waveNumber * 2 > e) {
-			Invoke ("SpawnSmallSkeleton", 1f);
+		while (waveNumber > e) {
+			if (e % 7 <= 2) {
+				Invoke ("SpawnSmallSkeleton", e*2);
+			}
+			if (e % 3 == 2) {
+				Invoke ("SpawnBigSkeleton", e*2);
+			}
+			if (e % 4 == 3) {
+				Invoke ("SpawnWarhound", e*2);
+			}
 			e++;
 		}
 	}
 
 	void SpawnSmallSkeleton(){
 		Instantiate (SmallSkeleton, gameObject.transform.position, gameObject.transform.rotation);
+	}
+
+	void SpawnBigSkeleton (){
+		Instantiate (BigSkeleton, gameObject.transform.position, gameObject.transform.rotation);
+	}
+
+	void SpawnWarhound (){
+		Instantiate (Warhound, gameObject.transform.position, gameObject.transform.rotation);
 	}
 }

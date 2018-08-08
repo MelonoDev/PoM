@@ -11,7 +11,7 @@ public class WeaponPickUp : MonoBehaviour {
 	void Update () {
 		if (PlayerInventory.weapons.Count < MaxWeaponInInventory) {
 			if (Player.PlayerIsPickingUp && playerInRange) {
-				GiveNumberInInv.NewWeaponPickedUp = true;
+				GiveNumberInInv.NewWeaponPickedUp = true; //lets inventory know you picked up a weapon
 				PlayerInventory.weapons.Add (ThisWeapon);
 				Destroy (gameObject);
 			}

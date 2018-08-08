@@ -31,6 +31,8 @@ public class Player : Humanoid{
 		Test ();
 		Speed = 7;
 		standardAttackDuration = .3f;
+		MaxHealth = 20;
+		Health = MaxHealth;
 		healthSlider = GameObject.Find ("HealthSlider").GetComponent<Slider> ();
 		healthSlider.maxValue = MaxHealth;
 		UpdateHealth ();
@@ -56,7 +58,10 @@ public class Player : Humanoid{
 			rollActivate = true;
 		}
 		InvincibilityObject.SetActive (IsInvulnerable);
-
+		if (Health > MaxHealth) {
+			Health = MaxHealth;
+			UpdateHealth();
+		}
 	}
 
 
@@ -234,5 +239,10 @@ public class Player : Humanoid{
 		transform.rotation = Quaternion.Euler (new Vector3 (0f, -angle, 0f));
 
 		IsInvulnerable = true;
+	}
+
+	public void GetHealed (int HealAmount){
+		Health += HealAmount;
+		UpdateHealth ();
 	}
 }

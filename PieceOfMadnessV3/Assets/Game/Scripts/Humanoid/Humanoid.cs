@@ -20,8 +20,8 @@ public enum State {
 	Roll,
 	Dead,
 	Knockback,
-	WindDown
-
+	WindDown,
+	RunAway
 }
 
 public abstract class Humanoid : MonoBehaviour {
@@ -35,6 +35,8 @@ public abstract class Humanoid : MonoBehaviour {
 	public State currentState;
 	public GameObject BloodParticles;
 	public GameObject InvincibilityObject;
+	public GameObject player;
+	public Player playerScript;
 
 	//audio
 	public AudioSource SwordStrikeAudio;
@@ -59,6 +61,7 @@ public abstract class Humanoid : MonoBehaviour {
 	protected float specialAttackDuration = .3f;
 
 	public bool HasBeenSpecialAttacked = false; //for invulnerability
+	public int HealAmount = 1; //heal per special hit
 
 	//Invulnerability
 	public bool IsInvulnerable = false;
@@ -91,6 +94,8 @@ public abstract class Humanoid : MonoBehaviour {
 		BloodParticles = gameObject.transform.Find ("ParticlesParent").Find ("BloodParticles").gameObject;
 		BloodParticles.SetActive (false);
 		InvincibilityObject = gameObject.transform.Find ("InvincibilityObject").gameObject;
+		player = GameObject.Find ("MainObjectPlayer");
+		playerScript = player.GetComponent<Player> ();
 
 		//Get audio components
 		SwordStrikeAudio = gameObject.transform.Find("SFXParent").Find("SwordStrikeAudio").GetComponent<AudioSource>();
@@ -129,6 +134,7 @@ public abstract class Humanoid : MonoBehaviour {
 
 				if (gameObject.tag != "Player") {
 					standardAttackWindupTimer += Time.deltaTime;
+
 				} else {
 					HumanoidAnimator.SetBool("RollBool", false);
 					isStandardAttacking = true;
@@ -141,7 +147,7 @@ public abstract class Humanoid : MonoBehaviour {
 			}
 		}
 		if (isStandardAttacking) {
-			if (!SwordStrikeAudio.isPlaying && isStandardAttackingTimer <= 0){
+			if (isStandardAttackingTimer <= 0){
 				SwordStrikeAudio.Play ();
 			}
 			currentState = State.WindDown;
@@ -174,6 +180,8 @@ public abstract class Humanoid : MonoBehaviour {
 			IsInvulnerable = true; //special attacks are combo attacks by the player, so no vulnerabiloty there
 			KnockBack (attackType);
 		} else if ((attackType == "SpecialAttack") && (!IsInvulnerable)) {
+			print ("Show healing");
+			playerScript.GetHealed (HealAmount);
 			StruckBloodAudio.pitch = Random.Range (.5f, 1.3f);
 			StruckBloodAudio.Play ();
 			Health -= damage * 2;

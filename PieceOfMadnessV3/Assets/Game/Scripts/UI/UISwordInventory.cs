@@ -56,11 +56,11 @@ public class UISwordInventory : MonoBehaviour {
 		giveNumberInInv.MakeInvNum ();
 
 		if (PlayerInventory.weapons.Count > NumberInInventory) {
-			SwordSprite = Resources.Load<Sprite> (PlayerInventory.weapons [NumberInInventory].WeaponName) as Sprite;
+			SwordSprite = Resources.Load<Sprite> ("Sprite" + PlayerInventory.weapons [NumberInInventory].WeaponName) as Sprite;
 		} else {
-			SwordSprite = Resources.Load<Sprite> ("Default") as Sprite;
+			SwordSprite = Resources.Load<Sprite> ("SpriteDefault") as Sprite;
 		}
-		print ("Sometin loaded in " + NumberInInventory.ToString());
+//		print ("Sometin loaded in " + NumberInInventory.ToString());
 
 		swordImage.sprite = SwordSprite;
 	}

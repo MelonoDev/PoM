@@ -7,8 +7,8 @@ public class BroadSword : WeaponParentClass {
 	public BroadSword(){
 		WeaponID = 1;
 		WeaponName = "BroadSword";
-		WeaponDamage = 2;
+		WeaponDamage = 3;
 		WeaponDurability = 8;
-		WeaponRange = 2;
+		WeaponRange = 1.6f;
 	}
 }
