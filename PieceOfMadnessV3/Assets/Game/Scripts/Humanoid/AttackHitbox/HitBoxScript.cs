@@ -45,7 +45,7 @@ public class HitBoxScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other){
-		if (other.gameObject.tag != gameObject.tag) {
+		if ((other.gameObject.tag != gameObject.tag) && (other.gameObject.tag != "Projectile")){
 			other.gameObject.GetComponent<Humanoid> ().GetHit (damage: ThisWeaponDamage, attackType: thisAttackType, attacker: ThisHumanoid);
 			if (thisAttackType == "SpecialAttack") {
 				other.gameObject.GetComponent<Humanoid> ().HasBeenSpecialAttacked = true;
@@ -53,3 +53,4 @@ public class HitBoxScript : MonoBehaviour {
 		}
 	}
 }
+ 

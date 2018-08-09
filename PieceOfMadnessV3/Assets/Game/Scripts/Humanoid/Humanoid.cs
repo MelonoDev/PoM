@@ -21,7 +21,8 @@ public enum State {
 	Dead,
 	Knockback,
 	WindDown,
-	RunAway
+	RunAway,
+	Rotate
 }
 
 public abstract class Humanoid : MonoBehaviour {

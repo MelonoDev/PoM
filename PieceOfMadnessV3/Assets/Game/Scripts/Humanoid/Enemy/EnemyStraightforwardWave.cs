@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class EnemyStraightforwardWave : Enemy {
 
 	private float standStillDistanceToPlayerMin = 7f;
-	private float standStillDistanceToPlayerMax = 16f;
+	private float standStillDistanceToPlayerMax = 12f;
 	private float standStillChance = 0f;
 	private float standStillTimer = 0f;
 	private float standStillDuration = 1f;

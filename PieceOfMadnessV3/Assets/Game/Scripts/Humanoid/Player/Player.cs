@@ -245,4 +245,10 @@ public class Player : Humanoid{
 		Health += HealAmount;
 		UpdateHealth ();
 	}
+
+	public override void GetHit (int damage, string attackType, Humanoid attacker)
+	{
+		base.GetHit (damage, attackType, attacker);
+		UpdateHealth ();
+	}
 }
