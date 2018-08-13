@@ -56,3 +56,4 @@ MonoBehaviour:
   BigSkeleton: {fileID: 1748200680786154, guid: 620aa3ad9833aba4e8e45929be941d4b,
     type: 2}
   Warhound: {fileID: 1280912715707912, guid: ec9c614b8a46f8443833ee052cbe605b, type: 2}
+  Bowman: {fileID: 1846778673664828, guid: 526566b7f9de31244b918b2ebd94bf42, type: 2}

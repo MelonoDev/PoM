@@ -19,7 +19,7 @@ public abstract class EnemyStraightforwardWave : Enemy {
 			if (standStillTimer >= standStillDuration) {
 				standStillTimer = 0f;
 				standStillChance = Random.Range (0f, 1f);
-				if (standStillChance > .05f) {
+				if (standStillChance > .2f) {
 					currentState = State.Idle;
 
 				}

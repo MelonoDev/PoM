@@ -979,7 +979,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1748200680786154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.186249, y: 3.9364566e-17, z: -8.408482}
+  m_LocalPosition: {x: 96.38381, y: 1.4085163, z: 71.37249}
   m_LocalScale: {x: 0.81282336, y: 0.8128236, z: 0.8128236}
   m_Children:
   - {fileID: 4091470975396504}
@@ -2224,6 +2224,8 @@ MonoBehaviour:
   currentState: 0
   BloodParticles: {fileID: 0}
   InvincibilityObject: {fileID: 0}
+  player: {fileID: 0}
+  playerScript: {fileID: 0}
   SwordStrikeAudio: {fileID: 0}
   StruckBloodAudio: {fileID: 0}
   DeathAudio: {fileID: 0}
@@ -2233,11 +2235,11 @@ MonoBehaviour:
   isStandardAttacking: 0
   isSpecialAttacking: 0
   HasBeenSpecialAttacked: 0
+  HealAmount: 1
   IsInvulnerable: 0
   IsBleeding: 0
   BleedTimer: 0
   BleedDuration: 0.5
-  player: {fileID: 0}
   noticeDistanceToPlayer: 10
   attackDistanceToPlayer: 5
   agent: {fileID: 0}
@@ -2341,7 +2343,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: ed14df0368fe53543907335c0e3902c6, type: 2}
+  - {fileID: 2100000, guid: 35873c0f97d74884f9018d65fbcc3b57, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
